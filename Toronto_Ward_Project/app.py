@@ -25,11 +25,10 @@ db = SQLAlchemy(app)
 Base = automap_base()
 # reflect the tables
 Base.prepare(db.engine, reflect=True)
-
 # Save references to each table
-wards = Base.classes.ward_data
-crime_2014 = Base.classes.crime2014_data
-crime_2018 = Base.classes.crime2018_data
+wards = Base.classes.Wards
+crime2014 = Base.classes.Crime2014
+crime2018 = Base.classes.Crime2018
 
 
 @app.route("/")
@@ -38,8 +37,8 @@ def index():
     return render_template("index.html")
 
 
-@app.route("/wards")
-def wards():
+@app.route("/income")
+def income():
 
     return jsonify()
 
