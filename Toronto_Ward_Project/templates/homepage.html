@@ -1,18 +1,14 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>Toronto 44 Wards</title>
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Toronto Wards</title>
-  <!-- bootstrap links -->
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
-   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
-   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
-   <script src="https://unpkg.com/leaflet@1.3.3/dist/leaflet.js"
+    <!-- Leaflet JS & CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.3/dist/leaflet.css"
+    integrity="sha512-Rksm5RenBEKSKFjgI3a41vrjkw4EVPlJ3+OiI65vTjIdo9brlAacEuKOiQ5OFh7cOI1bkDwLqdLw3Zg0cRJAAQ=="
+    crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.3.3/dist/leaflet.js"
     integrity="sha512-tAGcCfR4Sc5ZP5ZoVz0quoZDYX5aCtEm/eu1KhSLj2c9eFrylXZknQYmxUssFaVJKvvc0dJQixhGjG2yXWiV9Q=="
     crossorigin=""></script>
 
@@ -24,70 +20,95 @@
 
     <!-- Our CSS -->
     <link rel="stylesheet" type="text/css" href="../static/css/style.css">
-    <!-- in page style -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Toronto Wards</title>
+    <!-- bootstrap links -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+     <script src="https://unpkg.com/leaflet@1.3.3/dist/leaflet.js"
+      integrity="sha512-tAGcCfR4Sc5ZP5ZoVz0quoZDYX5aCtEm/eu1KhSLj2c9eFrylXZknQYmxUssFaVJKvvc0dJQixhGjG2yXWiV9Q=="
+      crossorigin=""></script>
+  
+      <!-- Plotly JS -->
+      <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  
+      <!-- d3 JavaScript -->
+      <script src="https://d3js.org/d3.v4.min.js"></script>
+  
+      <!-- Our CSS -->
+      <link rel="stylesheet" type="text/css" href="static/css/style.css">
+       <!-- in page style -->
    <style>
-        body {
-            position: relative; 
-        }
-        #section1 {padding-top:50px;height:500px;color: #fff; background-color: #1E88E5;}
-        #section2 {padding-top:50px;height:500px;color: #fff; background-color:  #00bcd4;}
-        #section3 {padding-top:50px;height:500px;color: #fff; background-color: #009688;}
+      body {
+          position: relative; 
+      }
+      #section1 {padding-top:50px;height:650px;color: #fff; background-color: #1E88E5;}
+      #section2 {padding-top:25px;height:650px;color: #fff; background-color:  #00bcd4;}
+      #section3 {padding-top:25px;height:800px;color: #fff; background-color: #009688;}
 
-    </style>
-</head>
-<!-- The scrollable area -->
-<body data-spy="scroll" data-target=".navbar" data-offset="50">
-
-        <nav class="navbar navbar-inverse navbar-fixed-top">
-          <div class="container-fluid">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-                  <span class="icon-bar"></span>
-                  <span class="icon-bar"></span>
-                  <span class="icon-bar"></span>                        
-              </button>
-              <a class="navbar-brand" href="#">WebSiteName</a>
+  </style>  
+  </head>
+  <body data-spy="scroll" data-target=".navbar" data-offset="50">
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>                        
+          </button>
+          <a class="navbar-brand" href="#">Toronto Gentrification</a>
+        </div>
+        <div>
+            <div class="collapse navbar-collapse" id="myNavbar">
+              <ul class="nav navbar-nav">
+                <li><a href="#section1">Income</a></li>
+                <li><a href="#section2">Characteristics</a></li>
+                <li><a href="#section3">Map</a></li>
+              </ul>
             </div>
-            <div>
-              <div class="collapse navbar-collapse" id="myNavbar">
-                <ul class="nav navbar-nav">
-                  <li><a href="#section1">Section 1</a></li>
-                  <li><a href="#section2">Section 2</a></li>
-                  <li><a href="#section3">Section 3</a></li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </nav>    
-         <!-- Map grapth area -->
-        <div id="section1" class="container-fluid">
-          <h1>Ward Income</h1>
-          <p>Try to scroll this section and look at the navigation bar while scrolling! Try to scroll this section and look at the navigation bar while scrolling!</p>
-          <a href="#section3">Section 3</a>
-          <base href="http://localhost/dir/" >
-        </div>
-          <!-- Bar grapth area -->
-        <div id="section2" class="container-fluid">
-          <h1>Section 2</h1>
-          <p>Try to scroll this section and look at the navigation bar while scrolling! Try to scroll this section and look at the navigation bar while scrolling!</p>
-          <base href="http://localhost/dir/" >
-        </div>
-         <!-- Characteristics grapth area -->
-        <div id="section3" class="container-fluid">
-          <h1>Section 3</h1>
-          <p>Try to scroll this section and look at the navigation bar while scrolling! Try to scroll this section and look at the navigation bar while scrolling!</p>
-          <base href="http://localhost/dir/" >
-        </div>
-        <footer class="page-footer font-small blue" style="background-color:lightcyan;">
-
-            <!-- Data Resources-->
-                    <div class="footer-copyright text-center py-3">© Resources:
-                    <a href="http://data.torontopolice.on.ca/"> Toronto Police Stats</a>
-                    <a href="https://www.statcan.gc.ca/eng/start"> Stats Canada</a>
-                    <a href="https://www.toronto.ca/city-government/data-research-maps/open-data/"> City of Toronto Open Data</a>
-
-                </div>
-            <!--Resources -->
-            </footer>
-        </body>
+         </div>
+      </div>
+    </nav>    
+     <!-- Map grapth area -->
+  <div id="section1" class="container-fluid">
+    <div class="row">
+      <h1>Ward Income by Year</h1>
+      <p>Income inequality has risen around the globe, affecting 75% of developed countries, and Canada is not an exception. The graph shows how two Wards.
+          that we could consider as low-income areas in the past, today difference between the average and median income show how 50% of the
+          population in those two areas has almost two times the income of the low-income households.</p>
+      <select id="selDataset" onchange="getData(this.value)">
+        <option value="dataset1">2015</option>
+        <option value="dataset2">2010</option>
+      </select>
+      <div id="barplot"></div>
+      <script type="text/javascript" src="static/js/plotsdataset3.js"></script>
+    </div>
+  </div>
+  <div id="section2" class="container-fluid">
+      <div class="row">
+        <h1>Characteristics</h1>
+        <p>Try to scroll this section and look at the navigation bar while scrolling! Try to scroll this section and look at the navigation bar while scrolling!</p>
+      </div>
+  </div>
+       <!-- Characteristics grapth area -->
+  <div id="section3" class="container-fluid">
+    <div class="row">
+      <h1>Map</h1>
+      <p>Try to scroll this section and look at the navigation bar while scrolling! Try to scroll this section and look at the navigation bar while scrolling!</p>
+    </div>
+  </div>
+  <footer class="page-footer font-small blue" style="background-color:lightcyan;">
+    <div class="footer-copyright text-center py-3">© Resources:
+      <a href="http://data.torontopolice.on.ca/"> Toronto Police Stats</a>
+      <a href="https://www.statcan.gc.ca/eng/start"> Stats Canada</a>
+      <a href="https://www.toronto.ca/city-government/data-research-maps/open-data/"> City of Toronto Open Data</a>
+    </div>
+  </footer>
+  </body>
 </html>
