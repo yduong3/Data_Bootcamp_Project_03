@@ -14,6 +14,7 @@
 
     <!-- Plotly JS -->
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script type="text/javascript" src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 
     <!-- d3 JavaScript -->
     <script src="https://d3js.org/d3.v4.min.js"></script>
@@ -78,15 +79,18 @@
      <!-- Map grapth area -->
   <div id="section1" class="container-fluid">
     <div class="row">
+      
       <h1>Ward Income by Year</h1>
       <p>Income inequality has risen around the globe, affecting 75% of developed countries, and Canada is not an exception. The graph shows how two Wards.
           that we could consider as low-income areas in the past, today difference between the average and median income show how 50% of the
           population in those two areas has almost two times the income of the low-income households.</p>
-      <select id="selDataset" onchange="getData(this.value)">
+     
+        <div id="plot1" class="responsive-plot"></div>       
+        <select id="selDataset" onchange="getData(this.value)">
         <option value="dataset1">2015</option>
         <option value="dataset2">2010</option>
       </select>
-      <div id="barplot"></div>
+      <div id="barplot" class="responsive-plot"></div>  
       <script type="text/javascript" src="static/js/plotsdataset3.js"></script>
     </div>
   </div>
