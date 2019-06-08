@@ -11,7 +11,7 @@ d3.json("/wards", function(values) {
         mode: "markers",
         marker: {
             color: "blue",
-            symbol: "triangle",
+            symbol: "square",
             size: 10
             },
     };
@@ -47,7 +47,7 @@ function getData(values){
         case "dataset4":
                 datay = dataset.hh_with_children_2011;
                 color = "blue";
-                symbol = "triangle";
+                symbol = "square";
                 name = "2011 Households with Children";
             break;
         case "dataset3": 
@@ -65,7 +65,7 @@ function getData(values){
         case "dataset1":
             datay = dataset.hh_with_children_2016;
             color = "blue";
-            symbol = "triangle";
+            symbol = "square";
             name = "2016 Households with Children";
             header = "2016 Households with Children";
     }
@@ -73,7 +73,7 @@ function getData(values){
 }
 
 function drawPlot(datay, color, symbol, name){  
-    Plotly.purge(plot);
+    Plotly.purge("plot");
     var trace4 = {
             x: dataset.ward,
             y: datay,
