@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Gentrification Toronto</title>
+
+  <!-- Leaflet JS & CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.3/dist/leaflet.css"
+  integrity="sha512-Rksm5RenBEKSKFjgI3a41vrjkw4EVPlJ3+OiI65vTjIdo9brlAacEuKOiQ5OFh7cOI1bkDwLqdLw3Zg0cRJAAQ=="
+  crossorigin=""/>
+  <script src="https://unpkg.com/leaflet@1.3.3/dist/leaflet.js"
+  integrity="sha512-tAGcCfR4Sc5ZP5ZoVz0quoZDYX5aCtEm/eu1KhSLj2c9eFrylXZknQYmxUssFaVJKvvc0dJQixhGjG2yXWiV9Q=="
+  crossorigin=""></script>
+
+  <!-- Marker Cluster JS & CSS -->
+  <script type="text/javascript" src="https://unpkg.com/leaflet.markercluster@1.0.3/dist/leaflet.markercluster.js"></script>
+  <link rel="stylesheet" type="text/css" href="https://unpkg.com/leaflet.markercluster@1.0.3/dist/MarkerCluster.css">
+  <link rel="stylesheet" type="text/css" href="https://unpkg.com/leaflet.markercluster@1.0.3/dist/MarkerCluster.Default.css">
+  <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
+    
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="../static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Custom styles for this template -->
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/scrolling-nav.css') }}">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+<body id="page-top">
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
+    <div class="container">
+      <a class="navbar-brand js-scroll-trigger" href="#page-top"><img src="static\images\TO_logo_PMS647_WEB.png" alt="Toronto" height="85" width="200"></a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href="#income">Ward Income</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href="#change">Median Income Change</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href="#characteristics">Ward Characteristics</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href="#map">Ward Map</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <header class="bg-primary text-white">
+    <div class="container text-center">
+      <h1>Indicators of Gentrification in Toronto's 44 Wards</h1>
+      <p class="lead">Since 1990, Toronto’s population has grown from over 2 million people to 6.5 million as of 2016.  
+        The visualization on this page will show you how Toronto has changed over the years, exploring each 
+        ward and the dramatic differences from one neighbourhood to the next.
+      </p>
+    </div>
+  </header>
+
+  <section id="income">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12 mx-auto">
+          <h2>Ward Income by Year</h2>
+          <p>Below is a graph showing you the median and average income for each Toronto ward.  Data is from the 2010 and 2015 Statistics Canada Census. </p>
+          <p>If average household income is greater than the median household income, this means that there is significant income disproportionately concentrated in the wealthiest households. </p>
+          <p>Ward 27	Toronto Centre-Rosedale, ward 16 Eglinton-Lawrence, ward 22	St.Paul's and 25 Don Valley West seem to have the greatest disparities. </p>
+          <select id="selDatasetbarplot" onchange="getData_bar(this.value)">
+            <option value="dataset7">2015</option>
+            <option value="dataset8">2010</option>
+          </select>
+          <br>
+        </div>
+        <div id="barplot">
+          <!-- We append our barplot here. -->
+        </div>
+        </div>
+      </div>
+  </section>
+  
+  <section id="change" class="bg-light">
+    <div class="container">
+      <div class="col-lg-12 mx-auto">
+        <h2>Median Income % Change 2010 vs. 2015</h2>
+        <p>There has been an increase of median household income for all wards in Toronto from 2010 Canada Census to 2015 Canada Census.  Ward 28 Toronto Centre-Rosedale has the highest increase of 23.5%, ward 20 Trinity-Spadina has an increase of 21.7%, ward 16 Eglinton-Lawrence has an increase of 19.7, and ward 14 Parkdale-HighPark is just right behind with 19.4% increase.</p>
+        <p>The wards with the lowest increases are ward 23 Willowdale with only a 0.5% increase, ward 24 Willowdale with 3.8% increase and ward 44 Scarborough East with an increase of 6.6%.</p>
+        <div class="row">
+          <div class="table-responsive col-md-6">
+            <table class="table table-hover">
+                <thead class="thead-dark">
+                  <tr>
+                    <th scope="col">Ward</th>
+                    <th scope="col">Ward Name</th>
+                    <th scope="col">Median Income % Change</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>1</td>
+                      <td>EtobicokeNorth</td>
+                      <td>9.7</td>
+                    </tr>
+                    <tr>
+                      <td>2</td>
+                      <td>EtobicokeNorth</td>
+                      <td>11.8</td>
+                    </tr>
+                    <tr>
+                      <td>3</td>
+                      <td>EtobicokeCentre</td>
+                      <td>13.4</td>
+                    </tr>
+                    <tr>
+                      <td>4</td>
+                      <td>EtobicokeCentre</td>
+                      <td>13.1</td>
+                    </tr>
+                    <tr>
+                      <td>5</td>
+                      <td>Etobicoke-Lakeshore</td>
+                      <td>6.7</td>
+                    </tr>
+                    <tr>
+                      <td>6</td>
+                      <td>Etobicoke-Lakeshore</td>
+                      <td>10.7</td>
+                    </tr>
+                    <tr>
+                      <td>7</td>
+                      <td>YorkWest</td>
+                      <td>16.1</td>
+                    </tr>
+                    <tr>
+                      <td>8</td>
+                      <td>YorkWest</td>
+                      <td>13.1</td>
+                    </tr>
+                    <tr>
+                      <td>9</td>
+                      <td>YorkCentre</td>
+                      <td>14.9</td>
+                    </tr>
+                    <tr>
+                      <td>10</td>
+                      <td>YorkCentre</td>
+                      <td>15.5</td>
+                    </tr>
+                    <tr>
+                      <td>11</td>
+                      <td>YorkSouth-Weston</td>
+                      <td>10.5</td>
+                    </tr>
+                    <tr>
+                      <td>12</td>
+                      <td>YorkSouth-Weston</td>
+                      <td>12.8</td>
+                    </tr>
+                    <tr>
+                      <td>13</td>
+                      <td>Parkdale-HighPark</td>
+                      <td>14.6</td>
+                    </tr>
+                    <tr>
+                      <td>14</td>
+                      <td>Parkdale-HighPark</td>
+                      <td>19.4</td>
+                    </tr>
+                    <tr>
+                      <td>15</td>
+                      <td>Eglinton-Lawrence</td>
+                      <td>15.9</td>
+                    </tr>
+                    <tr>
+                      <td>16</td>
+                      <td>Eglinton-Lawrence</td>
+                      <td>19.7</td>
+                    </tr>
+                    <tr>
+                      <td>17</td>
+                      <td>Davenport</td>
+                      <td>16.7</td>
+                    </tr>
+                    <tr>
+                      <td>18</td>
+                      <td>Davenport</td>
+                      <td>16</td>
+                    </tr>
+                    <tr>
+                      <td>19</td>
+                      <td>Trinity-Spadina</td>
+                      <td>17.1</td>
+                    </tr>
+                    <tr>
+                      <td>20</td>
+                      <td>Trinity-Spadina</td>
+                      <td>21.7</td>
+                    </tr>
+                    <tr>
+                      <td>21</td>
+                      <td>St.Paul&#39;s</td>
+                      <td>17.3</td>
+                    </tr>
+                    <tr>
+                      <td>22</td>
+                      <td>St.Paul&#39;s</td>
+                      <td>12.2</td>
+                    </tr>                   
+                  </tbody>
+                </table>
+              </div>
+              <div class="table-responsive col-md-6">
+                <table class="table table-hover">
+                  <thead class="thead-dark">
+                    <tr>
+                      <th scope="col">Ward</th>
+                      <th scope="col">Ward Name</th>
+                      <th scope="col">Median Income % Change</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>23</td>
+                      <td>Willowdale</td>
+                      <td>0.5</td>
+                    </tr> 
+                    <tr>
+                      <td>24</td>
+                      <td>Willowdale</td>
+                      <td>3.8</td>
+                    </tr>
+                    <tr>
+                      <td>25</td>
+                      <td>Don Valley West</td>
+                      <td>9.5</td>
+                    </tr>
+                    <tr>
+                      <td>26</td>
+                      <td>Don Valley West</td>
+                      <td>9.5</td>
+                    </tr>
+                    <tr>
+                      <td>27</td>
+                      <td>Toronto Centre-Rosedale</td>
+                      <td>11.6</td>
+                    </tr>
+                    <tr>
+                      <td>28</td>
+                      <td>Toronto Centre-Rosedale</td>
+                      <td>23.5</td>
+                    </tr>
+                    <tr>
+                      <td>29</td>
+                      <td>Toronto-Danforth</td>
+                      <td>10.2</td>
+                    </tr>
+                    <tr>
+                      <td>30</td>
+                      <td>Toronto-Danforth</td>
+                      <td>14.8</td>
+                    </tr>
+                    <tr>
+                      <td>31</td>
+                      <td>Beaches-East York</td>
+                      <td>9.6</td>
+                    </tr>
+                    <tr>
+                      <td>32</td>
+                      <td>Beaches-East York</td>
+                      <td>12</td>
+                    </tr>
+                    <tr>
+                      <td>33</td>
+                      <td>Don Valley East</td>
+                      <td>9</td>
+                    </tr>
+                    <tr>
+                      <td>34</td>
+                      <td>Don Valley East</td>
+                      <td>12.1</td>
+                    </tr>
+                    <tr>
+                      <td>35</td>
+                      <td>Scarborough Southwest</td>
+                      <td>15.2</td>
+                    </tr>
+                    <tr>
+                      <td>36</td>
+                      <td>Scarborough Southwest</td>
+                      <td>12.1</td>
+                    </tr>
+                    <tr>
+                      <td>37</td>
+                      <td>Scarborough Centre</td>
+                      <td>11.9</td>
+                    </tr>
+                    <tr>
+                      <td>38</td>
+                      <td>Scarborough Centre</td>
+                      <td>10.2</td>
+                    </tr>
+                    <tr>
+                      <td>39</td>
+                      <td>Scarborough Agincourt</td>
+                      <td>9.7</td>
+                    </tr>
+                    <tr>
+                      <td>40</td>
+                      <td>Scarborough Agincourt</td>
+                      <td>13.2</td>
+                    </tr>
+                    <tr>
+                      <td>41</td>
+                      <td>Scarborough-Rouge River</td>
+                      <td>7.9</td>
+                    </tr>
+                    <tr>
+                      <td>42</td>
+                      <td>Scarborough-Rouge River</td>
+                      <td>12.4</td>
+                    </tr>
+                      <tr>
+                      <td>43</td>
+                      <td>Scarborough East</td>
+                      <td>11.3</td>
+                    </tr>
+                    <tr>
+                      <td>44</td>
+                      <td>Scarborough East</td>
+                      <td>6.6</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </section>
+
+  <section id="characteristics">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12 mx-auto">
+          <h2>Ward Characteristics</h2>
+          <p>See key census information on homeownership, rental and households with children and 
+            how they have changed from 2011 to 2016.</p>
+          <p>Select the data you wish to see from the dropdown menu</p>
+          <select id="selDataset" multiple="multiple" onchange="getData(this.value)">
+            <option value="dataset1">2016 Households with Children</option>
+            <option value="dataset2">2016 Rental Properties</option>
+            <option value="dataset3">2016 Owned Properties</option>
+            <option value="dataset4">2011 Households with Children</option>
+            <option value="dataset5">2011 Rental Properties</option>
+            <option value="dataset6">2011 Owned Properties</option>
+          </select>
+          <br>
+        </div>
+        <div id="plot">
+          <!-- We append our plot here. -->
+        </div>
+        </div>
+      </div>
+  </section>
+
+  <section id="income" class="bg-light">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-12 mx-auto">
+              <h2>Toronto Ward Comparsion of Marjor Crimes</h2>
+              <p>Below is a map of Major Crime Indicators (MCI) from the Toronto Police Force from 2014 and from 2018.</p>
+              <p>The Major Crime Indicators (MCI) dataset we used only includes Robbery, Break and Enter, Assault, Theft Over, and Auto Theft.</p>
+              <p>The crime rate has increased by 15% from 2014 to 2018.  The highest crime neighbourhoods are Church-Yonge Corridor, Waterfront Communities-The Island, West Humber-Clairville and Moss Park.  The crime rate increased is 54%, 36%, 28%, and 48% respectively.</p>
+              <p>The neighbourhoods with the highest rate of increase are Rexdale-Kipling with 83%, Mimico (includes Humber Bay Shores) with 76%, Bathurst Manor with 61% and Elms-Old Rexdale with 59%.  However, the actual crime count in these arears are actually quite low with 183, 557, 261, 135 and 285 respectively. </p>
+              <p>The neighbourhoods with the biggest decrease in crime was Woodbine-Lumsden with -29%, Ionview with -30% and O'Connor-Parkview with -33%, but again the crime in these arears are relatively low to start with 86, 124 and 170 respectively.</p>
+            <br>
+          </div>
+          <div id="map">
+            <!-- We append our map here. -->
+          </div>
+          </div>
+        </div>
+    </section>
+
+  <!-- Footer -->
+  <footer class="py-5 bg-dark">
+    <div class="container">
+      <p class="m-0 text-center text-white">© Resources: <a href="http://data.torontopolice.on.ca/"> Toronto Police Stats</a>
+        <a href="https://www.statcan.gc.ca/eng/start"> Stats Canada</a>
+        <a href="https://www.toronto.ca/city-government/data-research-maps/open-data/"> City of Toronto Open Data</a></p>
+        <p class="m-0 text-center text-white">Copyright &copy; Team YEAA 2019</p>
+    </div>
+    <!-- /.container -->
+  </footer>
+
+  <!-- Bootstrap core JavaScript -->
+  <script type="text/javascript" src="../static/vendor/jquery/jquery.min.js"></script>
+  <script type="text/javascript" src="../static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Plugin JavaScript -->
+  <script src="../static/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+  <!-- Plotly JS -->
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+<!-- d3 JavaScript -->
+<script src="https://d3js.org/d3.v4.min.js"></script>
+
+<!-- API key -->
+<script type="text/javascript" src="{{ url_for('static', filename='js/config.js') }}"></script>
+
+<!-- JS  -->
+<script type="text/javascript" src="{{ url_for('static', filename='js/plotsdataset3.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/characteristics.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/map.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/scrolling-nav.js') }}"></script>
+
+</body>
+
+</html>
