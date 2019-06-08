@@ -7,7 +7,6 @@ import sqlalchemy
 from sqlalchemy.ext.automap import automap_base
 from sqlalchemy.orm import Session
 from sqlalchemy import create_engine
-from sqlalchemy import text
 
 from flask import Flask, jsonify, render_template
 from flask_sqlalchemy import SQLAlchemy
@@ -22,7 +21,6 @@ app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///db/to_ward_project.sqlite"
 engine = create_engine("sqlite:///db/to_ward_project.sqlite")
 session = Session(engine)
-
 db = SQLAlchemy(app)
 
 # reflect an existing database into a new model
@@ -31,8 +29,8 @@ Base = automap_base()
 Base.prepare(db.engine, reflect=True)
 # Save references to each table
 wards = Base.classes.Wards
-crime2014 = Base.classes.Crime2014
-crime2018 = Base.classes.Crime2018
+crime14 = Base.classes.Crime2014
+crime18 = Base.classes.Crime2018
 
 @app.route("/")
 def main():
