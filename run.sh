@@ -1,1 +1,1 @@
-FLASK_APP=toronto_gentrification/app.py flask run
+FLASK_APP=belly_button/app.py flask run
